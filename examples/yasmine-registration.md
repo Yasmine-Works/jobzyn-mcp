@@ -6,8 +6,8 @@ The planned release is the **catalog-managed npm package over stdio**, with no h
 
 | Item | Value |
 | --- | --- |
-| Proposed package | `jobzyn-mcp` — confirm npm ownership before release |
-| Exact proposed version | `0.1.0` |
+| Package | `jobzyn-mcp` |
+| Exact version for catalog review | `0.1.0` |
 | Source | https://github.com/Yasmine-Works/jobzyn-mcp |
 | Release commit | Fill in after review |
 | npm integrity | Fill in from `npm view jobzyn-mcp@0.1.0 dist.integrity` after publication |

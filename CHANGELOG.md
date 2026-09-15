@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — release candidate, not yet published
+## 0.1.0 — 2026-09-15
 
 - Expose all five documented JobZyn API operations as MCP tools.
 - Provide an npm CLI with stdio as its default transport for Claude Desktop, Codex, and approved managed clients.

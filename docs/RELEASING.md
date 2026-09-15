@@ -2,12 +2,12 @@
 
 The distribution is the npm package **`jobzyn-mcp@0.1.0`**, running locally over **stdio**. No hosted JobZyn MCP service is planned. Streamable HTTP remains an optional capability in the package; it is not needed for this release.
 
-## Current release status
+## Release identity
 
-- Proposed public package: `jobzyn-mcp`.
-- Version: `0.1.0`, not yet published.
+- Public package: `jobzyn-mcp`.
+- Version: `0.1.0`.
 - Source: [Yasmine-Works/jobzyn-mcp](https://github.com/Yasmine-Works/jobzyn-mcp).
-- The public registry returned no package for this name on September 15, 2026. This does not reserve the name or guarantee that npm will accept it.
+- Check the registry for the current publication status: `npm view jobzyn-mcp@0.1.0 version dist.integrity --json`.
 - Preparing the package requires no npm login or JobZyn credentials.
 - Actual publication requires the intended maintainer's npm account and any account-required authentication.
 

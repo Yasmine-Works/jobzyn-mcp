@@ -4,7 +4,7 @@ Connect JobZyn to Claude Desktop, Codex, and other Model Context Protocol client
 
 The distribution is an npm package running locally over **stdio**. **No hosted service is planned.** Streamable HTTP remains available as an optional capability for independently managed installations; both transports use the same tools and validation.
 
-**Release status:** this repository is prepared as npm package `jobzyn-mcp`, version `0.1.0`. Run `npm run release:prepare` to produce and verify the publication artifact. Preparation does not publish the package or approve a managed-client integration. Use the source checkout instructions now; npm examples apply after that exact version has been published under a package name you control.
+**npm package:** [`jobzyn-mcp`](https://www.npmjs.com/package/jobzyn-mcp), version `0.1.0`. Use the pinned installation and client configuration examples below. Maintainers can run `npm run release:prepare` to build and verify a publication artifact; that command does not publish or approve a managed-client integration.
 
 **Managed Yasmine:** publishing to npm does **not** make this package installable in managed Yasmine. Its pinned version must be added to and approved in Yasmine's catalog. This release uses the catalog-managed stdio path. Any independently hosted remote connection would still need Yasmine's security gateway. See [Managed Yasmine](#managed-yasmine).
 
@@ -94,7 +94,7 @@ The stdio process waits for MCP messages, so a quiet terminal is normal. A clien
 
 ## Install from npm
 
-**After publication**, use an exact reviewed version:
+Use an exact reviewed version:
 
 ```sh
 export JOBZYN_API_KEY='YOUR_JOBZYN_API_KEY'
@@ -144,7 +144,7 @@ Merge the following into your existing `mcpServers` object. Replace the executab
 
 On Windows, use an absolute `node.exe` path and escape backslashes in JSON. Restart Claude Desktop after saving. The tool list should contain the five `jobzyn_*` tools.
 
-After npm publication, the equivalent package configuration is:
+The equivalent npm package configuration is:
 
 ```json
 {
@@ -191,7 +191,7 @@ Choose one configuration for `mcp_servers.jobzyn`; do not duplicate the table.
 
 ### Pinned npm package
 
-After publication:
+Use the pinned npm package:
 
 ```toml
 [mcp_servers.jobzyn]
