@@ -1,0 +1,19 @@
+{
+  "package": "jobzyn-mcp@0.1.0",
+  "version": "0.1.0",
+  "tag": "latest",
+  "sourceCommit": "f2104d6d2f211a669359669c3813a7a05f999884",
+  "registry": "https://registry.npmjs.org/",
+  "packageUrl": "https://www.npmjs.com/package/jobzyn-mcp/v/0.1.0",
+  "tarball": "https://registry.npmjs.org/jobzyn-mcp/-/jobzyn-mcp-0.1.0.tgz",
+  "integrity": "sha512-f9BHl7bxijRkvnGaXM76kOXy6jFQiqNhg2dYwbrpaJ4MUvdNq/CsI/D6CeDAjL31uY22jxsKsLGFVDrCfasn5g==",
+  "publishedAt": "2026-09-15T15:00:56.718Z",
+  "verifiedAt": "2026-09-15T15:02:26.048Z",
+  "checks": [
+    "registry integrity matches reviewed artifact",
+    "clean registry installation",
+    "CLI version",
+    "five tools discovered over stdio"
+  ],
+  "managedYasmineCatalogApproval": "pending"
+}

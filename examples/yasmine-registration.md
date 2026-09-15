@@ -4,13 +4,15 @@ The planned release is the **catalog-managed npm package over stdio**, with no h
 
 ## Reviewed release
 
+Published npm package: [jobzyn-mcp@0.1.0](https://www.npmjs.com/package/jobzyn-mcp/v/0.1.0). [Verified release metadata](https://github.com/Yasmine-Works/jobzyn-mcp/blob/main/docs/releases/0.1.0.json) records the source revision, tarball URL, and checksum. Catalog approval is still required.
+
 | Item | Value |
 | --- | --- |
 | Package | `jobzyn-mcp` |
 | Exact version for catalog review | `0.1.0` |
 | Source | https://github.com/Yasmine-Works/jobzyn-mcp |
-| Release commit | Fill in after review |
-| npm integrity | Fill in from `npm view jobzyn-mcp@0.1.0 dist.integrity` after publication |
+| Release commit | `f2104d6d2f211a669359669c3813a7a05f999884` |
+| npm integrity | `sha512-f9BHl7bxijRkvnGaXM76kOXy6jFQiqNhg2dYwbrpaJ4MUvdNq/CsI/D6CeDAjL31uY22jxsKsLGFVDrCfasn5g==` |
 | Runtime | Node.js 22+ |
 | Executable | `jobzyn-mcp` |
 | Local arguments | `--transport stdio` |
