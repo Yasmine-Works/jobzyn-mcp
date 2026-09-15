@@ -1,5 +1,5 @@
 export const DEFAULT_BASE_URL = 'https://www.jobzyn.com/api/integrations';
-export const VERSION = '0.1.0';
+export const VERSION = '0.1.1';
 
 export interface ApiConfig {
   apiKey: string;

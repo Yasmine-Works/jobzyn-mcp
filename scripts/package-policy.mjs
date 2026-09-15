@@ -6,7 +6,6 @@ const publicFiles = new Set([
   'package.json', 'README.md', 'CHANGELOG.md', 'LICENSE', '.env.example', 'docs/RELEASING.md',
   'examples/claude-desktop.json', 'examples/claude-desktop-npm.json',
   'examples/codex-stdio.toml', 'examples/codex-npm.toml', 'examples/codex-http.toml',
-  'examples/yasmine-registration.md',
 ]);
 const runtimeFile = /^dist\/(cli|client|config|http|index|schemas|server)\.(js|js\.map|d\.ts)$/;
 

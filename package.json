@@ -1,6 +1,6 @@
 {
   "name": "jobzyn-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Connect AI clients to every documented JobZyn API endpoint over MCP stdio or Streamable HTTP.",
   "type": "module",
   "license": "MIT",
@@ -48,7 +48,6 @@
     "examples/codex-stdio.toml",
     "examples/codex-npm.toml",
     "examples/codex-http.toml",
-    "examples/yasmine-registration.md",
     "docs/RELEASING.md"
   ],
   "scripts": {

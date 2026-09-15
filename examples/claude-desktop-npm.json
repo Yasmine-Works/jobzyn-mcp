@@ -2,7 +2,7 @@
   "mcpServers": {
     "jobzyn": {
       "command": "npx",
-      "args": ["--yes", "jobzyn-mcp@0.1.0"],
+      "args": ["--yes", "jobzyn-mcp@0.1.1"],
       "env": { "JOBZYN_API_KEY": "YOUR_JOBZYN_API_KEY" }
     }
   }

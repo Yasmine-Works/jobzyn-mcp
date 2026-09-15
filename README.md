@@ -4,9 +4,8 @@ Connect JobZyn to Claude Desktop, Codex, and other Model Context Protocol client
 
 The distribution is an npm package running locally over **stdio**. **No hosted service is planned.** Streamable HTTP remains available as an optional capability for independently managed installations; both transports use the same tools and validation.
 
-**npm package:** [`jobzyn-mcp`](https://www.npmjs.com/package/jobzyn-mcp), version `0.1.0`. Use the pinned installation and client configuration examples below. Maintainers can run `npm run release:prepare` to build and verify a publication artifact; that command does not publish or approve a managed-client integration.
+**npm package:** [`jobzyn-mcp`](https://www.npmjs.com/package/jobzyn-mcp), version `0.1.1`. Use the pinned installation and client configuration examples below. Maintainers can run `npm run release:prepare` to build and verify a publication artifact; that command does not publish the package.
 
-**Managed Yasmine:** publishing to npm does **not** make this package installable in managed Yasmine. Its pinned version must be added to and approved in Yasmine's catalog. This release uses the catalog-managed stdio path. Any independently hosted remote connection would still need Yasmine's security gateway. See [Managed Yasmine](#managed-yasmine).
 
 ## Contents
 
@@ -18,7 +17,6 @@ The distribution is an npm package running locally over **stdio**. **No hosted s
 - [Codex](#codex)
 - [Streamable HTTP](#streamable-http)
 - [Hosting and Docker](#hosting-and-docker)
-- [Managed Yasmine](#managed-yasmine)
 - [Configuration reference](#configuration-reference)
 - [Tool reference](#tool-reference)
 - [Results and errors](#results-and-errors)
@@ -98,13 +96,13 @@ Use an exact reviewed version:
 
 ```sh
 export JOBZYN_API_KEY='YOUR_JOBZYN_API_KEY'
-npx --yes jobzyn-mcp@0.1.0
+npx --yes jobzyn-mcp@0.1.1
 ```
 
 Or install the CLI globally:
 
 ```sh
-npm install --global jobzyn-mcp@0.1.0
+npm install --global jobzyn-mcp@0.1.1
 jobzyn-mcp --transport stdio
 ```
 
@@ -112,10 +110,10 @@ To try the package locally before publishing:
 
 ```sh
 npm pack
-npm exec --yes --package=./jobzyn-mcp-0.1.0.tgz -- jobzyn-mcp --help
+npm exec --yes --package=./jobzyn-mcp-0.1.1.tgz -- jobzyn-mcp --help
 ```
 
-Pin reviewed releases in client configurations and managed catalogs. Updating the package version requires updating and reviewing those pins as well.
+Pin reviewed releases in client configurations. Updating the package version requires updating and reviewing those pins as well.
 
 ## Claude Desktop
 
@@ -151,7 +149,7 @@ The equivalent npm package configuration is:
   "mcpServers": {
     "jobzyn": {
       "command": "npx",
-      "args": ["--yes", "jobzyn-mcp@0.1.0"],
+      "args": ["--yes", "jobzyn-mcp@0.1.1"],
       "env": {
         "JOBZYN_API_KEY": "YOUR_JOBZYN_API_KEY"
       }
@@ -196,7 +194,7 @@ Use the pinned npm package:
 ```toml
 [mcp_servers.jobzyn]
 command = "npx"
-args = ["--yes", "jobzyn-mcp@0.1.0"]
+args = ["--yes", "jobzyn-mcp@0.1.1"]
 env_vars = ["JOBZYN_API_KEY"]
 ```
 
@@ -287,19 +285,19 @@ For browser-based clients that send an `Origin` header, add only the origins tha
 MCP_ALLOWED_ORIGINS=https://your-client.example.com
 ```
 
-Origins include the scheme and optional port, with no trailing slash. Do not guess a Yasmine origin: obtain it from the gateway operator. Requests with an `Origin` header are rejected unless it is explicitly allowed; server-to-server requests without that header work with an empty list.
+Origins include the scheme and optional port, with no trailing slash. Use the actual Origin sent by your client. Requests with an `Origin` header are rejected unless it is explicitly allowed; server-to-server requests without that header work with an empty list.
 
 Build and run:
 
 ```sh
-docker build -t jobzyn-mcp:0.1.0 .
+docker build -t jobzyn-mcp:0.1.1 .
 docker run --rm --init --name jobzyn-mcp \
   -p 127.0.0.1:3000:3000 \
   --env-file .env \
   -e HOST=0.0.0.0 \
   -e MCP_TRANSPORT=http \
   -e MCP_ALLOWED_HOSTS=mcp.example.com,localhost,127.0.0.1 \
-  jobzyn-mcp:0.1.0
+  jobzyn-mcp:0.1.1
 ```
 
 The container runs as the non-root `node` user. The example publishes the port only on the host's loopback interface for a local reverse proxy. Use your platform's private networking when the proxy runs elsewhere. The client URL is the public HTTPS address ending in `/mcp`, not the container address.
@@ -316,28 +314,6 @@ At the proxy/gateway:
 Stateless replicas need no session affinity. Each deployment is configured for **one JobZyn company**. Run separately configured deployments for different companies, or build an authenticated tenant-to-credential mapping before offering a shared service.
 
 No hosting provider or public hostname is provisioned by this repository. The Dockerfile is supplied for deployment; validate the image in your target environment.
-
-## Managed Yasmine
-
-The planned integration is the **catalog-managed npm package over stdio**. The remote path below is optional reference only; no hosted endpoint is part of this release.
-
-### Catalog-managed package
-
-1. Publish a reviewed npm release under a package name your organization controls.
-2. Submit that **exact version**, for example `jobzyn-mcp@0.1.0`, to the managed Yasmine catalog.
-3. Include the executable (`jobzyn-mcp`), transport (`stdio`), required secret (`JOBZYN_API_KEY`), tool list, upstream host, and release integrity metadata.
-4. Obtain catalog approval before making it available to managed users. Publishing on npm alone does not grant approval or installability.
-5. Review and approve each version upgrade according to catalog policy.
-
-### Remote HTTP connection
-
-1. Host this server at an organization-controlled HTTPS `/mcp` URL with a separate MCP bearer token.
-2. Register and approve the remote integration through Yasmine's security gateway.
-3. Have the gateway securely inject the backend bearer token, restrict access to the appropriate company deployment, and enforce tool policies.
-4. If Yasmine requires OAuth for its connection, terminate that supported authentication flow at the gateway; this package itself offers static bearer authentication only.
-5. Verify discovery of all five tools and test a read operation for an authorized job. Test writes only with an agreed test job or draft.
-
-This path requires no local package installation for Yasmine's user. It still requires gateway approval and configuration. Yasmine's catalog schema, gateway API, authentication policy, and deployment domain were not supplied, so this repository does not claim an automatic registration or approved connection. [The registration worksheet](examples/yasmine-registration.md) records the concrete details an operator needs without inventing a platform-specific manifest format.
 
 ## Configuration reference
 
@@ -563,7 +539,7 @@ npm test
 npm run verify:package
 ```
 
-`npm test` builds the executable and runs tests against a local mock API using the actual MCP SDK clients. The suite verifies all five endpoints through both stdio and Streamable HTTP, custom-field preservation, input validation, request encoding, authorization/origin/host checks, concurrent clients, errors, partial successes, redaction, redirect refusal, and timeouts. It does not require credentials or mutate live JobZyn data. Live account behavior and client-specific managed approval must be validated separately.
+`npm test` builds the executable and runs tests against a local mock API using the actual MCP SDK clients. The suite verifies all five endpoints through both stdio and Streamable HTTP, custom-field preservation, input validation, request encoding, authorization/origin/host checks, concurrent clients, errors, partial successes, redaction, redirect refusal, and timeouts. It does not require credentials or mutate live JobZyn data. Live account behavior must be validated separately.
 
 For source development, use `npm run dev` with credentials in the process environment. CLI diagnostics go to stderr so stdout remains valid MCP traffic.
 
@@ -579,7 +555,7 @@ src/
   http.ts       Authenticated stateless HTTP app and listener
   index.ts      Public library exports
 test/           Local API, MCP transport, validation, and error tests
-examples/       Client configuration and Yasmine registration worksheet
+examples/       Client configuration examples
 ```
 
 ### Library usage
@@ -615,19 +591,19 @@ Create the reviewed npm artifact with:
 npm run release:prepare
 ```
 
-This produces `.release/jobzyn-mcp-0.1.0.tgz` and an integrity manifest after checking the package allowlist, credentials, clean installation, TypeScript exports, and all five stdio tools. `.release/`, local `.env*` files, and `.npmrc` are excluded from Git. Only explicitly listed public files enter the package.
+This produces `.release/jobzyn-mcp-0.1.1.tgz` and an integrity manifest after checking the package allowlist, credentials, clean installation, TypeScript exports, and all five stdio tools. `.release/`, local `.env*` files, and `.npmrc` are excluded from Git. Only explicitly listed public files enter the package.
 
-Follow [the npm publication guide](docs/RELEASING.md) for the dry run, maintainer login, publication of the exact reviewed tarball, and registry verification. The npm examples for [Claude Desktop](examples/claude-desktop-npm.json) and [Codex](examples/codex-npm.toml) are pinned to `0.1.0`.
+Follow [the npm publication guide](docs/RELEASING.md) for the dry run, maintainer login, publication of the exact reviewed tarball, and registry verification. The npm examples for [Claude Desktop](examples/claude-desktop-npm.json) and [Codex](examples/codex-npm.toml) are pinned to `0.1.1`.
 
 1. Confirm npm ownership/availability of `jobzyn-mcp`, or change the package name and all client examples to your organization's scope.
-2. Update `package.json`, `src/config.ts`'s version, examples, and reviewed catalog pins together. Commit the lockfile.
+2. Update `package.json`, `src/config.ts`'s version, and client examples together. Commit the lockfile.
 3. Run the checks above. Inspect the tarball to confirm it contains compiled runtime files and declarations, README, examples, and LICENSE, with no secrets.
 4. Test the tarball in a clean installation. Confirm the CLI works without source files or development dependencies.
 5. Publish the reviewed version using your organization's npm release process. When publishing from the source directory, `prepublishOnly` runs the full release preparation gate and `prepack` builds the runtime.
-6. Record release metadata for managed catalog approval:
+6. Record the published release metadata:
 
 ```sh
-npm view jobzyn-mcp@0.1.0 version dist.integrity dist.tarball --json
+npm view jobzyn-mcp@0.1.1 version dist.integrity dist.tarball --json
 ```
 
 Publishing and hosting are separate actions. A public npm package has no public `/mcp` endpoint until someone deploys the HTTP server. No CI job in this repository publishes or deploys automatically.
@@ -651,8 +627,6 @@ Publishing and hosting are separate actions. A public npm package has no public 
 | Timeout while writing | Verify the job in the JobZyn backoffice before retrying |
 | HTTP startup fails on `0.0.0.0` | Set explicit `MCP_ALLOWED_HOSTS` and a separate `MCP_AUTH_TOKEN` |
 | OAuth login fails | This server uses a static bearer token; configure headers or a compatible gateway |
-| npm works locally but Yasmine cannot install it | Obtain approval for the exact pinned version in the managed catalog |
-| Hosted URL works locally but Yasmine cannot connect | Complete gateway registration, authentication, and network allowlisting |
 
 ## Documentation sources
 

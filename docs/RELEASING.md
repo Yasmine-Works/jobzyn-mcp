@@ -1,13 +1,13 @@
 # npm publication
 
-The distribution is the npm package **`jobzyn-mcp@0.1.0`**, running locally over **stdio**. No hosted JobZyn MCP service is planned. Streamable HTTP remains an optional capability in the package; it is not needed for this release.
+The distribution is the npm package **`jobzyn-mcp@0.1.1`**, running locally over **stdio**. No hosted JobZyn MCP service is planned. Streamable HTTP remains an optional capability in the package; it is not needed for this release.
 
 ## Release identity
 
 - Public package: `jobzyn-mcp`.
-- Version: `0.1.0`.
+- Version: `0.1.1`.
 - Source: [Yasmine-Works/jobzyn-mcp](https://github.com/Yasmine-Works/jobzyn-mcp).
-- Check the registry for the current publication status: `npm view jobzyn-mcp@0.1.0 version dist.integrity --json`.
+- Check the registry for the current publication status: `npm view jobzyn-mcp@0.1.1 version dist.integrity --json`.
 - Preparing the package requires no npm login or JobZyn credentials.
 - Actual publication requires the intended maintainer's npm account and any account-required authentication.
 
@@ -25,7 +25,7 @@ The preparation command runs type checking, tests, a clean build, package inspec
 Output files, excluded from Git and the npm package:
 
 ```text
-.release/jobzyn-mcp-0.1.0.tgz
+.release/jobzyn-mcp-0.1.1.tgz
 .release/release-manifest.json
 ```
 
@@ -58,7 +58,7 @@ The key does not belong in `.npmrc`, package metadata, GitHub secrets for this r
 ## Review the publication without uploading
 
 ```sh
-npm publish ./.release/jobzyn-mcp-0.1.0.tgz \
+npm publish ./.release/jobzyn-mcp-0.1.1.tgz \
   --access public \
   --registry https://registry.npmjs.org/ \
   --dry-run
@@ -78,7 +78,7 @@ npm whoami --registry https://registry.npmjs.org/
 Confirm the reported account is the intended publisher. Then publish the **same reviewed artifact**:
 
 ```sh
-npm publish ./.release/jobzyn-mcp-0.1.0.tgz \
+npm publish ./.release/jobzyn-mcp-0.1.1.tgz \
   --access public \
   --tag latest \
   --registry https://registry.npmjs.org/
@@ -86,18 +86,17 @@ npm publish ./.release/jobzyn-mcp-0.1.0.tgz \
 
 Complete npm's interactive authentication if requested. Publishing a tarball does not rerun this repository's source release checks; that is why it must first pass `release:prepare`. If publishing the source directory instead, `prepublishOnly` runs the preparation checks and `prepack` rebuilds it, but publishing the verified tarball is the documented release path.
 
-If npm rejects the name or another publisher claims it first, choose a package name/scope your organization controls, update package metadata, client examples, and catalog pins, and rebuild. Do not publish under an unrelated existing package.
+If npm rejects the name or another publisher claims it first, choose a package name/scope your organization controls, update package metadata and client examples, and rebuild. Do not publish under an unrelated existing package.
 
 ## Verify the published version
 
 ```sh
-npm view jobzyn-mcp@0.1.0 version dist.integrity dist.tarball --json
-npx --yes jobzyn-mcp@0.1.0 --version
+npm view jobzyn-mcp@0.1.1 version dist.integrity dist.tarball --json
+npx --yes jobzyn-mcp@0.1.1 --version
 ```
 
 Compare the registry integrity with `.release/release-manifest.json`. Record the release commit and npm metadata, then update the changelog with the publication date. Test an actual client using the version-pinned configuration in `examples/claude-desktop-npm.json` or `examples/codex-npm.toml`.
 
-For managed Yasmine, submit this exact version and integrity to its catalog for approval, using [the registration worksheet](../examples/yasmine-registration.md). The local runtime injects each user's/company's `JOBZYN_API_KEY`. npm publication alone does not make the package installable in managed Yasmine. The npm/stdin-stdout integration does not require a hosted endpoint.
 
 ## Subsequent versions
 

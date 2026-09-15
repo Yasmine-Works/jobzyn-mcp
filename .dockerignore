@@ -8,3 +8,4 @@ coverage
 test
 .npmrc
 .release
+.private/

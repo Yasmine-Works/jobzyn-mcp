@@ -12,7 +12,7 @@ async function main(): Promise<void> {
     version: { type: 'boolean', short: 'v' },
   } });
   if (values.help) {
-    process.stdout.write(`JobZyn MCP ${VERSION}\n\nUsage: jobzyn-mcp [--transport stdio|http]\n\nDefault: stdio (or MCP_TRANSPORT). Node.js 22+ required.\n\nRequired: JOBZYN_API_KEY\nHTTP also requires: MCP_AUTH_TOKEN (at least 32 characters, distinct from the API key)\nOptional: JOBZYN_BASE_URL, JOBZYN_REQUEST_TIMEOUT_MS\nHTTP options: HOST (127.0.0.1), PORT (3000), MCP_ALLOWED_HOSTS, MCP_ALLOWED_ORIGINS\nNon-loopback HOST requires an explicit MCP_ALLOWED_HOSTS list.\n\nSee README.md for Claude Desktop, Codex, hosting, and managed Yasmine setup.\n`);
+    process.stdout.write(`JobZyn MCP ${VERSION}\n\nUsage: jobzyn-mcp [--transport stdio|http]\n\nDefault: stdio (or MCP_TRANSPORT). Node.js 22+ required.\n\nRequired: JOBZYN_API_KEY\nHTTP also requires: MCP_AUTH_TOKEN (at least 32 characters, distinct from the API key)\nOptional: JOBZYN_BASE_URL, JOBZYN_REQUEST_TIMEOUT_MS\nHTTP options: HOST (127.0.0.1), PORT (3000), MCP_ALLOWED_HOSTS, MCP_ALLOWED_ORIGINS\nNon-loopback HOST requires an explicit MCP_ALLOWED_HOSTS list.\n\nSee README.md for Claude Desktop, Codex, and transport setup.\n`);
     return;
   }
   if (values.version) { process.stdout.write(`${VERSION}\n`); return; }
