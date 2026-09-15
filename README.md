@@ -4,8 +4,9 @@ Connect JobZyn to Claude Desktop, Codex, and other Model Context Protocol client
 
 The distribution is an npm package running locally over **stdio**. **No hosted service is planned.** Streamable HTTP remains available as an optional capability for independently managed installations; both transports use the same tools and validation.
 
-**npm package:** [`jobzyn-mcp`](https://www.npmjs.com/package/jobzyn-mcp), version `0.1.1`. Use the pinned installation and client configuration examples below. Maintainers can run `npm run release:prepare` to build and verify a publication artifact; that command does not publish the package.
+**Claude Desktop:** use the [automatic `npx` setup](#automatic-install-with-npx-recommended). Claude downloads and launches the package for you—no `npm install`, repository checkout, or absolute package path required. Node.js 22+ must already be installed.
 
+**npm package:** [`jobzyn-mcp`](https://www.npmjs.com/package/jobzyn-mcp), version `0.1.1`.
 
 ## Contents
 
@@ -92,7 +93,9 @@ The stdio process waits for MCP messages, so a quiet terminal is normal. A clien
 
 ## Install from npm
 
-Use an exact reviewed version:
+`npx` downloads the pinned version into npm's cache and runs it. No separate `npm install` is needed. For Claude Desktop, skip the terminal commands and use the [configuration below](#automatic-install-with-npx-recommended); Claude runs `npx` itself.
+
+To launch it from a terminal:
 
 ```sh
 export JOBZYN_API_KEY='YOUR_JOBZYN_API_KEY'
@@ -117,32 +120,12 @@ Pin reviewed releases in client configurations. Updating the package version req
 
 ## Claude Desktop
 
-### Local stdio
+### Automatic install with npx (recommended)
 
-Use Claude Desktop's developer settings to open its MCP configuration. Standard locations are:
-
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-
-Merge the following into your existing `mcpServers` object. Replace the executable and checkout paths with absolute paths on your machine:
-
-```json
-{
-  "mcpServers": {
-    "jobzyn": {
-      "command": "/absolute/path/to/node",
-      "args": ["/absolute/path/to/jobzyn-mcp/dist/cli.js"],
-      "env": {
-        "JOBZYN_API_KEY": "YOUR_JOBZYN_API_KEY"
-      }
-    }
-  }
-}
-```
-
-On Windows, use an absolute `node.exe` path and escape backslashes in JSON. Restart Claude Desktop after saving. The tool list should contain the five `jobzyn_*` tools.
-
-The equivalent npm package configuration is:
+1. Install **Node.js 22 or newer**, which includes npm and `npx`, if it is not already installed.
+2. In Claude Desktop, open **Settings → Developer → Edit Config**.
+3. Add the configuration below, replace `YOUR_JOBZYN_API_KEY` with your key, and save. If you already have other MCP servers, add only the `jobzyn` entry inside the existing `mcpServers` object.
+4. Fully quit and reopen Claude Desktop. The five `jobzyn_*` tools should appear.
 
 ```json
 {
@@ -158,7 +141,34 @@ The equivalent npm package configuration is:
 }
 ```
 
-This local configuration follows the [official MCP local-server guide](https://modelcontextprotocol.io/docs/develop/connect-local-servers). Protect the configuration file because it contains a credential. An absolute executable path avoids PATH differences between terminal and desktop applications.
+Claude launches `npx`, which downloads the package when needed and starts the local MCP server. `--yes` accepts npm's download prompt so startup can proceed without a terminal. Internet access is required for the first download and for calls to JobZyn. The version stays pinned until you change it in the configuration.
+
+On Windows, use `"command": "cmd"` and `"args": ["/c", "npx", "--yes", "jobzyn-mcp@0.1.1"]` if launching `npx` directly fails.
+
+This setup follows the [official MCP local-server guide](https://modelcontextprotocol.io/docs/develop/connect-local-servers) and [npm's `npx` behavior](https://docs.npmjs.com/cli/v11/commands/npx). Protect the configuration file because it contains your API key. Standard locations are:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+### Run a source checkout (for development)
+
+After [building from source](#quick-start-from-source), you can run that checkout instead. Use this configuration with absolute executable and checkout paths:
+
+```json
+{
+  "mcpServers": {
+    "jobzyn": {
+      "command": "/absolute/path/to/node",
+      "args": ["/absolute/path/to/jobzyn-mcp/dist/cli.js"],
+      "env": {
+        "JOBZYN_API_KEY": "YOUR_JOBZYN_API_KEY"
+      }
+    }
+  }
+}
+```
+
+On Windows, use an absolute `node.exe` path and escape backslashes in JSON. Fully quit and reopen Claude Desktop after saving.
 
 ### Remote connections
 
@@ -616,6 +626,7 @@ Publishing and hosting are separate actions. A public npm package has no public 
 | JSON parsing errors in a local client | Launch the CLI directly; keep banners and logs off stdout |
 | `JOBZYN_API_KEY` missing | `.env` is not automatic; use `--env-file`, client env settings, or hosting secrets |
 | `npx` says package/version not found | Publish the intended version first, or use the built checkout/tarball |
+| Claude cannot find `npx` | Install Node.js 22+ and fully restart Claude. If Node is installed through a version manager, ensure its executables are available to desktop apps; on Windows, try the `cmd` configuration above |
 | Desktop cannot find Node | Set an absolute Node executable path; verify Node 22+ |
 | HTTP `401` from `/mcp` | Supply the separate MCP token, not the JobZyn API key |
 | HTTP `403` before a tool runs | Check allowed Host and Origin; your proxy may rewrite Host |

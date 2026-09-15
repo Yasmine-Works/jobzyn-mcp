@@ -3,6 +3,7 @@
 ## 0.1.1 — 2026-09-15
 
 - Refine public documentation and package contents.
+- Make automatic installation through `npx` the recommended Claude Desktop setup, with no manual package installation or absolute package path.
 - Update version-pinned installation examples.
 
 ## 0.1.0 — 2026-09-15
