@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "jobzyn": {
+      "command": "/absolute/path/to/node",
+      "args": ["/absolute/path/to/jobzyn-mcp/dist/cli.js"],
+      "env": { "JOBZYN_API_KEY": "YOUR_JOBZYN_API_KEY" }
+    }
+  }
+}

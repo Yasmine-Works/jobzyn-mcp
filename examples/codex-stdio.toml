@@ -1,0 +1,4 @@
+[mcp_servers.jobzyn]
+command = "/absolute/path/to/node"
+args = ["/absolute/path/to/jobzyn-mcp/dist/cli.js"]
+env_vars = ["JOBZYN_API_KEY"]

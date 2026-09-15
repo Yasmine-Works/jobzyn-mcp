@@ -1,0 +1,64 @@
+{
+  "name": "jobzyn-mcp",
+  "version": "0.1.0",
+  "description": "Connect AI clients to every documented JobZyn API endpoint over MCP stdio or Streamable HTTP.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Yasmine Works",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yasmine-Works/jobzyn-mcp.git"
+  },
+  "homepage": "https://github.com/Yasmine-Works/jobzyn-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/Yasmine-Works/jobzyn-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "jobzyn",
+    "recruitment",
+    "claude",
+    "codex"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "jobzyn-mcp": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    ".env.example",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc --noEmit",
+    "start": "node dist/cli.js",
+    "start:http": "node dist/cli.js --transport http",
+    "dev": "tsx src/cli.ts",
+    "test": "npm run build && tsx --test test/*.test.ts",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check && npm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@types/express": "5.0.6",
+    "@types/node": "22.20.2",
+    "express": "5.2.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,3 @@
+[mcp_servers.jobzyn]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "JOBZYN_MCP_TOKEN"
