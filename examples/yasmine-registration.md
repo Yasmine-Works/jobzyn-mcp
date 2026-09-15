@@ -1,6 +1,6 @@
 # Managed Yasmine registration worksheet
 
-This is an operator handoff, not a Yasmine manifest or a completed approval. Use the organization's actual catalog and gateway interfaces.
+The planned release is the **catalog-managed npm package over stdio**, with no hosted service. This is an operator handoff, not a Yasmine manifest or a completed approval. Use the organization's actual catalog interface.
 
 ## Reviewed release
 
@@ -18,7 +18,9 @@ This is an operator handoff, not a Yasmine manifest or a completed approval. Use
 | Upstream | `https://www.jobzyn.com/api/integrations` |
 | Catalog approval | Pending; npm publication alone does not grant installability |
 
-## Remote deployment
+## Optional remote deployment reference
+
+Not part of the planned npm release. No remote URL is being provisioned.
 
 | Item | Value |
 | --- | --- |
@@ -48,8 +50,8 @@ This is an operator handoff, not a Yasmine manifest or a completed approval. Use
 - Record exact package release or deployed revision and approving operator.
 - Confirm MCP initialization and discovery return exactly the five tools above.
 - Verify a permitted candidate read for an authorized test job.
-- Verify missing/incorrect MCP credentials are rejected at the remote endpoint.
-- Verify gateway policies cover writes, candidate data, and company access.
+- Inject `JOBZYN_API_KEY` through the managed local runtime, never into the package or catalog metadata.
+- Verify managed tool policies cover writes, candidate data, and company access.
 - Exercise writes only on an agreed test job; create with `status: "UNPUBLISHED"`.
 - Confirm every future package upgrade receives the required catalog review.
 

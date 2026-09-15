@@ -1,0 +1,4 @@
+[mcp_servers.jobzyn]
+command = "npx"
+args = ["--yes", "jobzyn-mcp@0.1.0"]
+env_vars = ["JOBZYN_API_KEY"]

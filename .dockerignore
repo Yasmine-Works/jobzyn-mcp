@@ -6,3 +6,5 @@ coverage
 .env.*
 *.tgz
 test
+.npmrc
+.release

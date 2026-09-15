@@ -24,6 +24,10 @@
   "engines": {
     "node": ">=22"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "bin": {
     "jobzyn-mcp": "dist/cli.js"
   },
@@ -36,19 +40,30 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE",
     ".env.example",
-    "examples"
+    "examples/claude-desktop.json",
+    "examples/claude-desktop-npm.json",
+    "examples/codex-stdio.toml",
+    "examples/codex-npm.toml",
+    "examples/codex-http.toml",
+    "examples/yasmine-registration.md",
+    "docs/RELEASING.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\"",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
     "check": "tsc --noEmit",
     "start": "node dist/cli.js",
     "start:http": "node dist/cli.js --transport http",
     "dev": "tsx src/cli.ts",
-    "test": "npm run build && tsx --test test/*.test.ts",
+    "test": "npm run build && tsx --test test/*.test.ts test/*.test.mjs",
+    "test:live": "node --env-file=.env scripts/test-live.mjs",
+    "verify:package": "npm run build && node scripts/verify-package.mjs",
+    "release:prepare": "npm run check && npm test && npm run verify:package",
     "prepack": "npm run build",
-    "prepublishOnly": "npm run check && npm test"
+    "prepublishOnly": "npm run release:prepare"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",

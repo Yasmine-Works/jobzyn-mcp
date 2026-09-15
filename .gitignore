@@ -6,3 +6,5 @@ coverage/
 !.env.example
 *.tgz
 .DS_Store
+.npmrc
+.release/

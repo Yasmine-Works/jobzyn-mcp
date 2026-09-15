@@ -2,11 +2,11 @@
 
 Connect JobZyn to Claude Desktop, Codex, and other Model Context Protocol clients. This TypeScript server exposes **one tool for each of the five documented JobZyn API endpoints**, through either **stdio** or an optional **Streamable HTTP `/mcp` endpoint**.
 
-The same tools and validation run on both transports. An HTTP deployment lets a remote client connect without installing Node.js or this package on the client's machine.
+The distribution is an npm package running locally over **stdio**. **No hosted service is planned.** Streamable HTTP remains available as an optional capability for independently managed installations; both transports use the same tools and validation.
 
-**Release status:** this repository is prepared as npm package `jobzyn-mcp`, version `0.1.0`. Building it does not publish the package, provision a public endpoint, or approve a managed-client integration. Use the source checkout instructions now; npm examples apply after that exact version has been published under a package name you control.
+**Release status:** this repository is prepared as npm package `jobzyn-mcp`, version `0.1.0`. Run `npm run release:prepare` to produce and verify the publication artifact. Preparation does not publish the package or approve a managed-client integration. Use the source checkout instructions now; npm examples apply after that exact version has been published under a package name you control.
 
-**Managed Yasmine:** publishing to npm does **not** make this package installable in managed Yasmine. Its pinned version must be added to and approved in Yasmine's catalog. Remote connections must pass through Yasmine's security gateway. See [Managed Yasmine](#managed-yasmine).
+**Managed Yasmine:** publishing to npm does **not** make this package installable in managed Yasmine. Its pinned version must be added to and approved in Yasmine's catalog. This release uses the catalog-managed stdio path. Any independently hosted remote connection would still need Yasmine's security gateway. See [Managed Yasmine](#managed-yasmine).
 
 ## Contents
 
@@ -86,9 +86,6 @@ Edit `.env` and replace `JOBZYN_API_KEY` with your company key. Then:
 ```sh
 # Local MCP process; stdin/stdout belong to the MCP client.
 node --env-file=.env dist/cli.js
-
-# HTTP server; first set a separate MCP_AUTH_TOKEN in .env.
-node --env-file=.env dist/cli.js --transport http
 ```
 
 The stdio process waits for MCP messages, so a quiet terminal is normal. A client usually launches this process itself; you do not need to run a separate stdio server first.
@@ -224,6 +221,8 @@ The [official Codex MCP documentation](https://developers.openai.com/codex/mcp/)
 
 ## Streamable HTTP
 
+This is an optional capability for independently managed installations. The planned npm distribution uses stdio and includes no hosted endpoint.
+
 The implementation follows the SDK's [Streamable HTTP guidance](https://ts.sdk.modelcontextprotocol.io/server), using its stateless JSON-response mode. Each HTTP request receives its own MCP server and transport instance. There are no session IDs, in-memory client sessions, standalone SSE streams, or resumable event history.
 
 | Route | Access | Purpose |
@@ -266,6 +265,8 @@ curl --fail http://127.0.0.1:3000/mcp \
 These checks do not create or modify jobs. `/healthz` does not verify your JobZyn credentials or upstream connectivity. The stateless server also accepts independent discovery requests; SDK clients perform the normal initialization exchange.
 
 ## Hosting and Docker
+
+No service will be hosted for this release. The following reference is only for operators choosing to host their own copy.
 
 Deploy the Node process or container behind an HTTPS reverse proxy or security gateway. A typical configuration is:
 
@@ -318,7 +319,7 @@ No hosting provider or public hostname is provisioned by this repository. The Do
 
 ## Managed Yasmine
 
-There are two integration paths, subject to the managed platform's policies:
+The planned integration is the **catalog-managed npm package over stdio**. The remote path below is optional reference only; no hosted endpoint is part of this release.
 
 ### Catalog-managed package
 
@@ -559,7 +560,7 @@ Other codes include `CANCELLED`, `NETWORK_ERROR`, `INVALID_RESPONSE`, `RESPONSE_
 npm ci
 npm run check
 npm test
-npm pack --dry-run
+npm run verify:package
 ```
 
 `npm test` builds the executable and runs tests against a local mock API using the actual MCP SDK clients. The suite verifies all five endpoints through both stdio and Streamable HTTP, custom-field preservation, input validation, request encoding, authorization/origin/host checks, concurrent clients, errors, partial successes, redaction, redirect refusal, and timeouts. It does not require credentials or mutate live JobZyn data. Live account behavior and client-specific managed approval must be validated separately.
@@ -595,13 +596,34 @@ await server.connect(new StdioServerTransport());
 
 `createHttpApp(apiConfig, httpConfig)` lets an existing Express host mount the application. Keep its authentication and validation middleware intact. The `JobzynClient` methods are typed API wrappers; MCP input validation occurs in the server, so direct JavaScript callers should validate payloads with the exported schemas.
 
+### Live validation without stored credentials in code
+
+Use an ignored local `.env` file containing `JOBZYN_API_KEY`, then run:
+
+```sh
+npm run build
+npm run test:live -- --job-id YOUR_EXTERNAL_JOB_ID
+```
+
+The helper uses stdio, makes one read-only candidate lookup, and prints only status and counts. It never writes jobs, persists candidate records, or prints the API key or candidate details. No credentials are needed for CI or release preparation. See [the live-test instructions](docs/RELEASING.md#optional-live-check).
+
 ### Release process
+
+Create the reviewed npm artifact with:
+
+```sh
+npm run release:prepare
+```
+
+This produces `.release/jobzyn-mcp-0.1.0.tgz` and an integrity manifest after checking the package allowlist, credentials, clean installation, TypeScript exports, and all five stdio tools. `.release/`, local `.env*` files, and `.npmrc` are excluded from Git. Only explicitly listed public files enter the package.
+
+Follow [the npm publication guide](docs/RELEASING.md) for the dry run, maintainer login, publication of the exact reviewed tarball, and registry verification. The npm examples for [Claude Desktop](examples/claude-desktop-npm.json) and [Codex](examples/codex-npm.toml) are pinned to `0.1.0`.
 
 1. Confirm npm ownership/availability of `jobzyn-mcp`, or change the package name and all client examples to your organization's scope.
 2. Update `package.json`, `src/config.ts`'s version, examples, and reviewed catalog pins together. Commit the lockfile.
 3. Run the checks above. Inspect the tarball to confirm it contains compiled runtime files and declarations, README, examples, and LICENSE, with no secrets.
 4. Test the tarball in a clean installation. Confirm the CLI works without source files or development dependencies.
-5. Publish the reviewed version using your organization's npm release process. The `prepublishOnly` hook runs type checking and tests; `prepack` builds the runtime.
+5. Publish the reviewed version using your organization's npm release process. When publishing from the source directory, `prepublishOnly` runs the full release preparation gate and `prepack` builds the runtime.
 6. Record release metadata for managed catalog approval:
 
 ```sh

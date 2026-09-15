@@ -19,7 +19,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
-      - run: npm pack --dry-run
+      - run: npm run verify:package
       - name: Build and smoke-test container
         if: matrix.node == 22
         run: |
