@@ -1,0 +1,19 @@
+{
+  "package": "jobzyn-mcp@0.1.1",
+  "version": "0.1.1",
+  "tag": "latest",
+  "sourceCommit": "acb1c82731eea7d6bd2859fee0fca082fe4241f1",
+  "registry": "https://registry.npmjs.org/",
+  "packageUrl": "https://www.npmjs.com/package/jobzyn-mcp/v/0.1.1",
+  "tarball": "https://registry.npmjs.org/jobzyn-mcp/-/jobzyn-mcp-0.1.1.tgz",
+  "integrity": "sha512-LU8i2Sqv4Lz78YEKaWpS4BMOOAM5UNb1OrgbdMQfaXwMDVXGvGn6aHZLWTNJZy8hcsqn8j64BO9BzYXpO2REYQ==",
+  "publishedAt": "2026-09-15T15:21:24.616Z",
+  "verifiedAt": "2026-09-15T15:21:44.933Z",
+  "checks": [
+    "registry integrity matches reviewed artifact",
+    "public README cleanup",
+    "automatic npx installation from an empty cache",
+    "CLI server version",
+    "five tools discovered over stdio"
+  ]
+}
